@@ -1,5 +1,7 @@
+// import { useState } from 'react'
 import { useRoutes } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Navbar from './components/Navbar';
 import Read from './pages/Read';
 // import Create from './pages/Create';
 // import Edit from './pages/Edit';
@@ -8,6 +10,8 @@ import './App.css'
 
 
 const App = () => {
+  // const [theme, setTheme] = useState('light');
+
   // Sets up routes
   let element = useRoutes([
     {
@@ -33,11 +37,14 @@ const App = () => {
 
     <div className="App">
 
-      <div>
+      <div className='container'>
+        <Navbar />
         {/* <h1>Create, view, update your Dungeons and Dragons party</h1>
         <Link to={`/`}><button>Home</button></Link> */}
       </div>
-      {element}
+      <div style={{ paddingTop: "60px" }}>
+        {element}
+      </div>
     </div>
 
   )
