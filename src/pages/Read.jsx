@@ -1,46 +1,46 @@
 import { useState, useEffect } from 'react'
-// import Card from '../components/Card'
+import Card from '../components/Card'
 import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 
 const Read = () => {
 
-    // const [partyMembers, setPartyMembers] = useState([])
+    const [posts, setPosts] = useState([])
 
-    // useEffect(() => {
-    //     // READ all post from table
-    //     const fetchPosts = async () => {
-    //         try {
-    //             const {data} = await supabase
-    //                 .from('party')
-    //                 .select();
-    //             // set state of posts
-    //             setPartyMembers(data)
-    //         } catch (error) {
-    //             console.log("Error reading posts ", error)
-    //         }
-    //     }  
-    //     fetchPosts();
-    // }, [props])
+    useEffect(() => {
+        // READ all post from table
+        const fetchPosts = async () => {
+            try {
+                const {data} = await supabase
+                    .from('posts')
+                    .select();
+                // set state of posts
+                setPosts(data)
+            } catch (error) {
+                console.log("Error reading posts ", error)
+            }
+        }  
+        fetchPosts();
+    }, [])
     
     return (
         <div className="ReadPosts">
-            <p>Party members so far:</p>
-            {/* {
-                partyMembers && partyMembers.length > 0 ?
-                [...partyMembers]
+            <h3>All posts</h3>
+            {
+                posts && posts.length > 0 ?
+                [...posts]
                 .sort((a, b) => a.id - b.id)
                 .map((member,index) => 
                     <Card
-                        key={member.id} 
-                        name={member.name}
-                        race={member.race}
-                        class={member.class}
-                        id={member.id} 
+                        created_at={member.created_at} 
+                        body={member.body}                  
+                        like_count={member.like_count}
+                        author={member.author}
+                        img_url={member.img_url}
                     />
-                ) : <h2>{'No members in your party yet 😞'}</h2>
+                ) : <h2>{'No members in posts 😞'}</h2>
             }
-            <Link to="/new"><button className="headerBtn"> Add new member </button></Link> */}
+            {/* <Link to="/new"><button className="headerBtn"> Add new member </button></Link> */}
         </div>  
     )
 }

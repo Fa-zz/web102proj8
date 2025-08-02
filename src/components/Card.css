@@ -1,0 +1,63 @@
+/* Container that holds all tweet cards */
+.tweet-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+/* Individual tweet card */
+.tweet-card {
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease;
+}
+
+.tweet-card:hover {
+    background-color: #f5f8fa;
+}
+
+/* Author name */
+.tweet-author {
+    font-weight: bold;
+    color: #14171a;
+    margin-bottom: 8px;
+}
+
+/* Tweet content */
+.tweet-body {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* Timestamp */
+.tweet-time {
+    font-size: 0.85rem;
+    color: #657786;
+}
+
+/* Tweet images */
+.tweet-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.tweet-images img {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 8px;
+    object-fit: cover;
+    width: 50%;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+}

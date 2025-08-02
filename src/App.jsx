@@ -41,10 +41,10 @@ const App = () => {
         <Navbar />
         {/* <h1>Create, view, update your Dungeons and Dragons party</h1>
         <Link to={`/`}><button>Home</button></Link> */}
-      </div>
-      <div style={{ paddingTop: "60px" }}>
         {element}
       </div>
+      {/* <div style={{ paddingTop: "60px" }}>
+      </div> */}
     </div>
 
   )
