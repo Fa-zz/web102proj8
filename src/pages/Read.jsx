@@ -4,7 +4,6 @@ import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 
 const Read = () => {
-
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -25,7 +24,7 @@ const Read = () => {
     
     return (
         <div className="ReadPosts">
-            <h3>All posts</h3>
+            <h3 style={{ 'text-align': 'center' }}>All posts</h3>
             {
                 posts && posts.length > 0 ?
                 [...posts]

@@ -32,17 +32,23 @@ const Card = (props) =>  {
         <div className="tweet-container">
             <div className="tweet-card" key={props.id}>
                 <div className="tweet-content">
-                <div className="tweet-author">{props.author}</div>
-                <div className="tweet-body">
-                    {props.body !== "NULL"
-                        && props.body
-                    }
-                </div>
+                    <div>
+                        <div className="tweet-author">{props.author}</div>
+                        <div className="tweet-body">
+                            {props.body !== "NULL" && props.body}
+                        </div>
+                    </div>
 
-                <div className="tweet-time">{readable}</div>
+                    <div className="tweet-footer">
+                        <div className="tweet-time">{readable}</div>
+                        <div className="card-buttons">
+                            <button className="like-btn">❤️ {props.like_count}</button>
+                            <button className="retweet-btn">🔁</button>
+                        </div>
+                    </div>
                 </div>
                 <div className="tweet-images">
-                {(props.img_url !== "" && props.img_url !== "NULL") && <img src={props.img_url} />}
+                    {(props.img_url !== "" && props.img_url !== "NULL") && <img src={props.img_url} />}
                 </div>
             </div>
         </div>
