@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../client'
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import './Card.css'
 
 const Card = (props) =>  {
+    dayjs.extend(relativeTime);
+
     const navigate = useNavigate();
+
+    const readable = dayjs(props.created_at).format("MMMM D, YYYY h:mm A");
 
     useEffect(() => {
     }, []);
@@ -33,10 +39,10 @@ const Card = (props) =>  {
                     }
                 </div>
 
-                <div className="tweet-time"><p>{props.timestamp}</p></div>
+                <div className="tweet-time">{readable}</div>
                 </div>
                 <div className="tweet-images">
-                {props.img_url !== "NULL" && <img src={props.img_url} alt={``} />}
+                {(props.img_url !== "" && props.img_url !== "NULL") && <img src={props.img_url} />}
                 </div>
             </div>
         </div>
