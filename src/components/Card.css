@@ -10,12 +10,21 @@
 
 /* Individual tweet card */
 .tweet-card {
-    border: 1px solid #e1e8ed;
-    border-radius: 10px;
-    padding: 16px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s ease;
+  display: flex; /* Make content horizontal */
+  align-items: flex-start; /* Align items at the top */
+  gap: 16px;
+  border: 1px solid #e1e8ed;
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.tweet-content {
+  flex: 1; /* Takes up remaining space */
+  display: flex;
+  flex-direction: column;
 }
 
 .tweet-card:hover {
@@ -45,19 +54,12 @@
 
 /* Tweet images */
 .tweet-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
+  flex-shrink: 0;
 }
 
 .tweet-images img {
-    width: 100%;
-    max-width: 280px;
-    border-radius: 8px;
-    object-fit: cover;
-    width: 50%;
-    display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
 }

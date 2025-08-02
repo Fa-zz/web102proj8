@@ -18,7 +18,8 @@ const Navbar = ( {theme, setTheme}) => {
             <ul>
                 <li>Home</li>
                 <li>About</li>
-                <li>Create new post</li>
+                {/* <li>Create new post</li> */}
+                <Link to="/new"><li className="headerBtn"> Create new post </li></Link>
             </ul>
             <div className='search-box'>
                 <input type="text" placeholder='Search posts'/>

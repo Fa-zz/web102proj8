@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Read from './pages/Read';
-// import Create from './pages/Create';
+import Create from './pages/Create';
 // import Edit from './pages/Edit';
 // import DetailedView from './pages/DetailedView';
 import './App.css'
@@ -17,6 +17,10 @@ const App = () => {
     {
       path: "/",
       element:<Read />
+    },
+    {
+      path:"/new",
+      element: <Create />
     }
     // ,
     // {

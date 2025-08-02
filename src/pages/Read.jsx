@@ -40,7 +40,6 @@ const Read = () => {
                     />
                 ) : <h2>{'No members in posts 😞'}</h2>
             }
-            {/* <Link to="/new"><button className="headerBtn"> Add new member </button></Link> */}
         </div>  
     )
 }

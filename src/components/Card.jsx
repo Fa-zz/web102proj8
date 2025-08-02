@@ -23,17 +23,20 @@ const Card = (props) =>  {
     // }
 
     return (
-        <div>
-            <div className="tweet-container">
-                <div className="tweet-card" key={props.id}>
+        <div className="tweet-container">
+            <div className="tweet-card" key={props.id}>
+                <div className="tweet-content">
                 <div className="tweet-author">{props.author}</div>
-                {/* <div  */}
-                <div className="tweet-body">{props.body}</div>
-                <div className="tweet-time"><p>{props.timestamp}</p></div>
-                <div className="tweet-images">
-                    <img src={props.img_url} alt={`Tweet image ${props.id}`} />
+                <div className="tweet-body">
+                    {props.body !== "NULL"
+                        && props.body
+                    }
                 </div>
-                {/* <div className="tweet-time">{formatTime(tweet.timestamp)}</div> */}
+
+                <div className="tweet-time"><p>{props.timestamp}</p></div>
+                </div>
+                <div className="tweet-images">
+                {props.img_url !== "NULL" && <img src={props.img_url} alt={``} />}
                 </div>
             </div>
         </div>
