@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Card from '../components/Card'
 import { supabase } from '../client'
 import { Link } from 'react-router-dom'
+import './Read.css'
 
 const Read = () => {
     const [posts, setPosts] = useState([])
@@ -23,8 +24,14 @@ const Read = () => {
     }, [])
     
     return (
-        <div className="ReadPosts">
-            <h3 style={{ 'text-align': 'center' }}>All posts</h3>
+        <div>
+            <h3 style={{ textAlign: 'center' }}>All posts</h3>
+            <div className="filters">
+                <p>Sort:</p>
+                <button>Date</button>
+                <button>Likes</button>
+                <button>Retweets</button>
+            </div>
             {
                 posts && posts.length > 0 ?
                 [...posts]

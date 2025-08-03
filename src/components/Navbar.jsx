@@ -16,7 +16,7 @@ const Navbar = ( {theme, setTheme}) => {
         <div className='navbar'>
             <img src={logo_light} alt="" className='logo'/>
             <ul>
-                <li>Home</li>
+                <Link to="/"><li className="headerBtn"> Home </li></Link>
                 <li>About</li>
                 {/* <li>Create new post</li> */}
                 <Link to="/new"><li className="headerBtn"> Create new post </li></Link>

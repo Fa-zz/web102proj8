@@ -1,0 +1,24 @@
+.filters {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: center; /* This centers the row horizontally */
+  gap: 10px;               /* Adds space between p and buttons */
+}
+
+.sort-buttons {
+  text-align: center;
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.filters button {
+  border: none;
+  background-color: #ff00f27c;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+}
