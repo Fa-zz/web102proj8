@@ -43,6 +43,7 @@ const Read = () => {
                         like_count={member.like_count}
                         author={member.author}
                         img_url={member.img_url}
+                        title={member.title}
                     />
                 ) : <h2>{'No members in posts 😞'}</h2>
             }

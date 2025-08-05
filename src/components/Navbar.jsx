@@ -14,7 +14,7 @@ const Navbar = ( {theme, setTheme}) => {
 
     return (
         <div className='navbar'>
-            <img src={logo_light} alt="" className='logo'/>
+            {/* <img src={logo_light} alt="" className='logo'/> */}
             <ul>
                 <Link to="/"><li className="headerBtn"> Home </li></Link>
                 <li>About</li>

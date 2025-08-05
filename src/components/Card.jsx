@@ -33,7 +33,7 @@ const Card = (props) =>  {
             <div className="tweet-card" key={props.id}>
                 <div className="tweet-content">
                     <div>
-                        <div className="tweet-author">{props.author}</div>
+                        <div className="tweet-author">{props.title} • @{props.author}</div>
                         <div className="tweet-body">
                             {props.body !== "NULL" && props.body}
                         </div>

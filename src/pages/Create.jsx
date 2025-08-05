@@ -10,7 +10,7 @@ const Create = () => {
         try {
             const { data, error } = await supabase
                 .from('posts')
-                .insert({ author: posts.author, body: posts.body, img_url: posts.img_url, like_count: 10 })
+                .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 10 })
                 .select();
 
             if (error) {
@@ -23,11 +23,12 @@ const Create = () => {
             console.error("Unexpected error:", error);
         }
     }
-    const [posts, setPosts] = useState({author: "", body: "", img_url: ""})
+    const [newPost, setNewPost] = useState({author: "", body: "", img_url: "", title: ""})
 
     const handleChange = (event) => {
         const {name, value} = event.target
-        setPosts( (prev) => {
+        console.log(newPost);
+        setNewPost( (prev) => {
             return {
                 ...prev,
                 [name]:value,
@@ -38,15 +39,19 @@ const Create = () => {
         <div>
             <form>
                 <label htmlFor="Author">Author</label> <br />
-                <input type="text" id="author" name="author" value={posts.author} onChange={handleChange} /><br />
+                <input type="text" id="author" name="author" value={newPost.author} onChange={handleChange} /><br />
+                <br/>
+
+                <label htmlFor="Author">Title</label> <br />
+                <input type="text" id="title" name="title" value={newPost.title} onChange={handleChange} /><br />
                 <br/>
 
                 <label htmlFor="body">Body</label> <br />
-                <input type="text" id="body" name="body" value={posts.body} onChange={handleChange} />
+                <input type="text" id="body" name="body" value={newPost.body} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="body">Image URL</label> <br />
-                <input type="text" id="img_url" name="img_url" value={posts.img_url} onChange={handleChange} />
+                <input type="text" id="img_url" name="img_url" value={newPost.img_url} onChange={handleChange} />
                 <br />
 
                 <input type="submit" value="Submit" onClick={create} />
