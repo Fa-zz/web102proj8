@@ -36,23 +36,45 @@ const Create = () => {
         })
     }
     return (
-        <div>
+        <div className="create-post-form">
+            <h2>What's on your mind?</h2>
             <form>
-                <label htmlFor="Author">Author</label> <br />
-                <input type="text" id="author" name="author" value={newPost.author} onChange={handleChange} /><br />
-                <br/>
+                <label htmlFor="author">Author</label>
+                <input
+                type="text"
+                id="author"
+                name="author"
+                value={newPost.author}
+                onChange={handleChange}
+                />
 
-                <label htmlFor="Author">Title</label> <br />
-                <input type="text" id="title" name="title" value={newPost.title} onChange={handleChange} /><br />
-                <br/>
+                <label htmlFor="title">Title</label>
+                <input
+                type="text"
+                id="title"
+                name="title"
+                value={newPost.title}
+                onChange={handleChange}
+                />
 
-                <label htmlFor="body">Body</label> <br />
-                <input type="text" id="body" name="body" value={newPost.body} onChange={handleChange} />
-                <br />
+                <label htmlFor="body">Body</label>
+                <input
+                type="text"
+                id="body"
+                name="body"
+                value={newPost.body}
+                onChange={handleChange}
+                />
 
-                <label htmlFor="body">Image URL</label> <br />
-                <input type="text" id="img_url" name="img_url" value={newPost.img_url} onChange={handleChange} />
-                <br />
+                <label htmlFor="img_url">Image URL</label>
+                <input
+                type="text"
+                id="img_url"
+                name="img_url"
+                value={newPost.img_url}
+                onChange={handleChange}
+                />
+                <button type="button">Get a random meme</button>
 
                 <input type="submit" value="Submit" onClick={create} />
             </form>
