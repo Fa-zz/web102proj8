@@ -14,19 +14,17 @@ const App = () => {
   // const [theme, setTheme] = useState('light');
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Gets all posts
-  const fetchPosts = async () => {
-      try {
-          const {data} = await supabase
-              .from('posts')
-              .select();
-          // set state of posts
-              setSearchedPosts(data)
-          } catch (error) {
-              console.log("Error reading posts ", error)
-          }
-  } 
+const fetchPosts = async () => {
+  try {
+    const { data } = await supabase.from("posts").select();
+    setMainPosts(data);
+  } catch (error) {
+    console.log("Error reading posts ", error);
+  }
+};
 
   // When page initially loads, get all posts
   useEffect(() => {
@@ -34,11 +32,19 @@ const App = () => {
       fetchPosts();
   }, [])
 
-  const onSearchClick = (searchTerm) => {
-    console.log(searchTerm);
-  }
+  // Recalculate searchedPosts when searchTerm or mainPosts change
+  useEffect(() => {
+    if (!searchTerm) {
+      setSearchedPosts(mainPosts);
+    } else {
+      const results = mainPosts.filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchedPosts(results);
+    }
+  }, [searchTerm, mainPosts]);
 
-  // Sets up routes
+  // ROUTES
   let element = useRoutes([
     {
       path: "/",
@@ -49,10 +55,6 @@ const App = () => {
       element: <Create />
     }
     // ,
-    // {
-    //   path:"/new",
-    //   element: <Create />
-    // },
     // {
     //   path:"/edit/:id",
     //   element: <Edit />
@@ -68,7 +70,7 @@ const App = () => {
     <div className="App">
 
       <div className='container'>
-        <Navbar onSearchClick={onSearchClick} />
+        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
         <div style={{ paddingTop: "60px" }}>
           {element}

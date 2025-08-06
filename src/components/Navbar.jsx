@@ -8,13 +8,18 @@ import search_icon_light from '../assets/search-w.png'
 // import toggle_light from '../assets/night.png'
 // import toggle_dark from '../assets/day.png'
 
-const Navbar = ( {theme, setTheme, onSearchClick}) => {
-    const toggle_mode = () => {
-        theme == 'light' ? setTheme('dark'): setTheme()
-    }
+const Navbar = ( {theme, setTheme, searchTerm, setSearchTerm}) => {
+    // const toggle_mode = () => {
+    //     theme == 'light' ? setTheme('dark'): setTheme()
+    // }
 
-    const [searchTerm, setSearchTerm] = useState("");
-
+    const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            // Trigger the image click
+            document.getElementById("searchIcon").click();
+        }
+    };
 
     return (
         <div className='navbar'>
@@ -26,8 +31,8 @@ const Navbar = ( {theme, setTheme, onSearchClick}) => {
                 <Link to="/new"><li className="headerBtn"> Create new post </li></Link>
             </ul>
             <div className='search-box'>
-                <input type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder='Search posts'/>
-                <img onClick={() => onSearchClick(searchTerm)} src={search_icon_light} alt=""/>
+                <input type="text" onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} placeholder='Search posts'/>
+                <img id="searchIcon" src={search_icon_light} alt=""/>
             </div>
         </div>
     );
