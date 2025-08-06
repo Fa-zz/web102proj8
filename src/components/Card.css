@@ -107,6 +107,12 @@
   color: #17bf63;
 }
 
+.edit-btn:hover {
+  background-color: rgba(0, 255, 251, 0.1);
+  border-color: #24a4e0;
+  color: #24b7e0;
+}
+
 /* Timestamp */
 .tweet-time {
     font-size: 0.85rem;

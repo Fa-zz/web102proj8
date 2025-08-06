@@ -97,6 +97,7 @@ const Read = ({posts, updateLikeCount, user}) => {
                 })
                 .map((member, index) => (
                 <Card key={member.id}
+                    user={user}
                     id={member.id}
                     created_at={member.created_at}
                     body={member.body}

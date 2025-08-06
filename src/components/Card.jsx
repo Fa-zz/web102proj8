@@ -40,6 +40,17 @@ const Card = (props) =>  {
                             ❤️ {props.like_count}
                             </button>
                             <button className="retweet-btn">🔁</button>
+                            {
+                                props.author === props.user &&
+                                <button
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevents triggering the parent link, which is link to DetailedView
+                                    navigate(`/edit/${props.id}`)
+                                }}
+                                className="edit-btn"
+                                >📝
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
