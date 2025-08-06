@@ -95,7 +95,8 @@ const DetailedView = ({updateLikeCount}) => {
 
     return (
         <div className="post-container">
-            <button onClick={() => navigate(-1)}>Go back</button>
+            <button className="go-back-btn" onClick={() => navigate(-1)}>⬅️ Go back</button>
+            <br /><br />
             <h3>{post.title} by @{post.author}</h3>
             {(post.img_url && post.img_url !== "NULL") && <img src={post.img_url} alt="Post image" />}
             <p>{post.body}</p>
