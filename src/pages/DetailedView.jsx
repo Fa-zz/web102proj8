@@ -4,7 +4,7 @@ import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount}) => {
+const DetailedView = ({updateLikeCount, user}) => {
     const {id} = useParams() // This is the ID of the post
     const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
@@ -70,6 +70,7 @@ const DetailedView = ({updateLikeCount}) => {
 
     // Called when like button for a comment is clicked
     const handleCommentLikeClick = async (itemID, oldLikeCount) => {
+        {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
         const newLikeCount = oldLikeCount + 1;
 
         const { error } = await supabase

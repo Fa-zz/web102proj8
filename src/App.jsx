@@ -49,17 +49,18 @@ const App = () => {
 
   // Called when like button is clicked, either in Card component or DetailedView. Increments the like count of a post, then re-fetches all posts
   const updateLikeCount = async (id, oldLikeCount) => {
-      const newLikeCount = oldLikeCount + 1;
+    {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
+    const newLikeCount = oldLikeCount + 1;
 
-      const { error } = await supabase
-          .from('posts')
-          .update({ like_count: newLikeCount })
-          .eq('id', id);
+    const { error } = await supabase
+        .from('posts')
+        .update({ like_count: newLikeCount })
+        .eq('id', id);
 
-      if (error) {
-          console.error("Error updating like count:", error.message);
-      }
-      fetchPosts();
+    if (error) {
+        console.error("Error updating like count:", error.message);
+    }
+    fetchPosts();
   }
 
   // ROUTES
@@ -74,7 +75,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView updateLikeCount={updateLikeCount} />
+      element: <DetailedView updateLikeCount={updateLikeCount} user={user} />
     },
     {
       path:"/signup",
@@ -93,7 +94,7 @@ const App = () => {
     <div className="App">
 
       <div className='container'>
-        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Navbar setSearchTerm={setSearchTerm} user={user} />
 
         <div style={{ paddingTop: "60px" }}>
           {element}

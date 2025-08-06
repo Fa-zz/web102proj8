@@ -8,7 +8,7 @@ import search_icon_light from '../assets/search-w.png'
 // import toggle_light from '../assets/night.png'
 // import toggle_dark from '../assets/day.png'
 
-const Navbar = ( {setSearchTerm}) => {
+const Navbar = ( {setSearchTerm, user}) => {
     // const toggle_mode = () => {
     //     theme == 'light' ? setTheme('dark'): setTheme()
     // }
@@ -28,8 +28,7 @@ const Navbar = ( {setSearchTerm}) => {
              <Link to="/"><img src={logo1} alt="" className='logo'/></Link>
             <ul>
                 <li>About</li>
-                {/* <li>Create new post</li> */}
-                <Link to="/new"><li className="headerBtn"> Create new post </li></Link>
+                <Link   onClick={(e) => {if (user === "") {e.preventDefault(); alert("Hey you're gonna need to log in before you can do that");}}}to="/new"><li className="headerBtn"> Create new post </li></Link>
                 <Link to="/signup"><li className="headerBtn"> Sign up </li></Link>
                 <Link to="/login"><li className="headerBtn"> Log in </li></Link>
             </ul>
