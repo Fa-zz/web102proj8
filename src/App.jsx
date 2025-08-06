@@ -15,7 +15,7 @@ const App = () => {
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Gets all posts
   const fetchPosts = async () => {

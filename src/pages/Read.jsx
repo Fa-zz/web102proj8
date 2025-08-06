@@ -73,7 +73,7 @@ const Read = ({posts, updateLikeCount}) => {
 
     return (
         <div>
-            <h3 style={{ textAlign: 'center' }}>All posts</h3>
+            <h3 style={{ textAlign: 'center' }}>Your feed</h3>
             <div className="filters">
                 <p>Sort:</p>
                 <button onClick={onClickSortDate}>Date</button>

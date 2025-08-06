@@ -17,11 +17,19 @@
 
 .filters button {
   border: none;
-  background-color: #ff00f27c;
-  color: white;
+  background-color: #B3FFF7;
+  color: black;
   padding: 10px 20px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 9999px;
+  font-weight: 500;
 }
+
+.filters button:hover {
+  background: #859dff;
+}
+
 
 .card-link {
   text-decoration: none;

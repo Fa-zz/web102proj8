@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import './Navbar.css';
-import logo_light from '../assets/logo-black.png'
+import logo1 from '../assets/logo1.jpg'
 // import logo_dark from '../assets/logo-white.png'
 import search_icon_light from '../assets/search-w.png'
 // import search_icon_dark from '../assets/search-b.png'
 // import toggle_light from '../assets/night.png'
 // import toggle_dark from '../assets/day.png'
 
-const Navbar = ( {theme, setTheme, searchTerm, setSearchTerm}) => {
+const Navbar = ( {setSearchTerm}) => {
     // const toggle_mode = () => {
     //     theme == 'light' ? setTheme('dark'): setTheme()
     // }
@@ -23,7 +23,7 @@ const Navbar = ( {theme, setTheme, searchTerm, setSearchTerm}) => {
 
     return (
         <div className='navbar'>
-            {/* <img src={logo_light} alt="" className='logo'/> */}
+            <img src={logo1} alt="" className='logo'/>
             <ul>
                 <Link to="/"><li className="headerBtn"> Home </li></Link>
                 <li>About</li>
