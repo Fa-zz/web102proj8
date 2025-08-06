@@ -35,3 +35,15 @@
   text-decoration: none;
   color: inherit; /* Optional: preserve original text color */
 }
+
+.profile-link {
+  color: #981df0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.profile-link:hover {
+  text-decoration: underline;
+  color: #c714d0;
+}

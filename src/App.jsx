@@ -9,6 +9,7 @@ import DetailedView from './pages/DetailedView';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import Edit from './pages/Edit';
+import Profile from './pages/Profile';
 import './App.css'
 
 
@@ -188,6 +189,10 @@ const App = () => {
     {
       path:"/edit/:id",
       element: <Edit deletePost={deletePost} updatePost={updatePost} user={user} getMeme={getMeme} />
+    },
+    {
+      path:"/profile/:username",
+      element: <Profile posts={mainPosts} />
     }
   ]);
 

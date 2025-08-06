@@ -21,7 +21,12 @@ const Card = (props) =>  {
             <div className="tweet-card" key={props.id} onClick={handleCardClick} role="button" tabIndex={0}>
                 <div className="tweet-content">
                     <div>
-                        <div className="tweet-author">{props.title} • @{props.author}</div>
+                        <div className="tweet-author">
+                            {props.title} • {" "}
+                            <Link onClick={(e) => {e.stopPropagation()}} to={`/profile/${props.author}`} className="author-link">
+                                @{props.author}
+                            </Link>
+                        </div>
                         <div className="tweet-body">
                             {props.body !== "NULL" && props.body}
                         </div>

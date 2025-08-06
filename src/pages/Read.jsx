@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Card from '../components/Card'
-import { supabase } from '../client'
 import { Link, useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs';
 import './Read.css'
@@ -59,25 +58,33 @@ const Read = ({searchedPosts, updateLikeCount, user, deletePost}) => {
     // }, [searchedPosts])
 
     // Gets a specific post by id (currently unused)
-    const selectDataById = async (targetId) => {
-        const { data, error } = await supabase
-            .from('posts')
-            .select('*') // Selects all columns. You can specify specific columns like 'name, email'
-            .eq('id', targetId); // Filters where the 'idColumnName' matches 'targetId'
+    // const selectDataById = async (targetId) => {
+    //     const { data, error } = await supabase
+    //         .from('posts')
+    //         .select('*') // Selects all columns. You can specify specific columns like 'name, email'
+    //         .eq('id', targetId); // Filters where the 'idColumnName' matches 'targetId'
 
-        if (error) {
-            console.error('Error fetching data:', error.message);
-            return null;
-        }
-        return data;
-    }
+    //     if (error) {
+    //         console.error('Error fetching data:', error.message);
+    //         return null;
+    //     }
+    //     return data;
+    // }
 
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>
-                {user === "" ? 'Your feed (not signed in)' : user + '\'s feed' }
+                {user === "" ? (
+                    'Your feed (not signed in)'
+                ) : (
+                    <>
+                    <Link to={`/profile/${user}`} className="profile-link">
+                        @{user}
+                    </Link>
+                    's feed
+                    </>
+                )}
             </h3>
-            
             <div className="filters">
                 <p>Sort:</p>
                 <button onClick={onClickSortDate}>Date</button>
