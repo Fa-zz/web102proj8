@@ -8,6 +8,7 @@ import Create from './pages/Create';
 // import Edit from './pages/Edit';
 import DetailedView from './pages/DetailedView';
 import SignUp from './pages/SignUp';
+import LogIn from './pages/LogIn';
 import './App.css'
 
 
@@ -80,8 +81,11 @@ const App = () => {
     {
       path:"/signup",
       element: <SignUp setUser={setUser} />
+    },
+    {
+      path:"/login",
+      element: <LogIn setUser={setUser} />
     }
-
     // ,
     // {
     //   path:"/edit/:id",
