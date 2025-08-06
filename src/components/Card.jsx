@@ -44,7 +44,14 @@ const Card = (props) =>  {
                             >
                             ❤️ {props.like_count}
                             </button>
-                            <button className="retweet-btn">🔁</button>
+                            <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                props.onClickRetweet(props.id, props.user);
+                            }}
+                            className="retweet-btn">
+                            🔁
+                            </button>
                             {
                                 props.author === props.user &&
                                 <button

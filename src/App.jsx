@@ -90,6 +90,24 @@ const App = () => {
     }
   };
 
+  const updatePost = async (id, updatedData) => {
+    const { data, error } = await supabase
+      .from('posts')
+      .update({author: updatedData.author, body: updatedData.body, img_url: updatedData.img_url, title: updatedData.title})
+      .eq('id', id)
+      .select();
+
+    if (!error && data) {
+      console.log(data);
+      setMainPosts(prev =>
+        prev.map(post => (post.id === id ? { ...post, ...updatedData } : post))
+      );
+      navigate(`/view/${data[0].id}`); // go to new post DetailedView
+    } else {
+      console.log("error: ", error);
+    }
+  };
+
   // Called when like button is clicked, either in Card component or DetailedView. Increments the like count of a post, then re-fetches all posts
   const updateLikeCount = async (id, oldLikeCount) => {
     {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
@@ -112,24 +130,40 @@ const App = () => {
         )
       );
     }
-    // fetchPosts();
   }
 
-  const updatePost = async (id, updatedData) => {
-    const { data, error } = await supabase
-      .from('posts')
-      .update({author: updatedData.author, body: updatedData.body, img_url: updatedData.img_url, title: updatedData.title})
-      .eq('id', id)
-      .select();
+  // Called when retweet button is clicked, either in Card component or DetailedView.
+  const updateRetweet = async (postId, username) => {
+    if (user === "") {
+      alert("Hey you're gonna need to log in before you can do that");
+      return;
+    }
 
-    if (!error && data) {
-      console.log(data);
-      setMainPosts(prev =>
-        prev.map(post => (post.id === id ? { ...post, ...updatedData } : post))
-      );
-      navigate(`/view/${data[0].id}`); // go to new post DetailedView
+    // Get user ID from username
+    const { data: userData, error: userError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username)
+      .single();
+
+    if (userError) {
+      console.error("Error fetching user:", userError.message);
+      return;
+    }
+
+    // Insert retweet into 'retweets' table
+    const { error: retweetError } = await supabase
+      .from('retweets')
+      .insert({
+        user_id: userData.id,
+        post_id: postId,
+      });
+
+    if (retweetError) {
+      console.error("Error inserting retweet:", retweetError.message);
     } else {
-      console.log("error: ", error);
+      console.log("Retweet successful");
+      // Optionally update state here
     }
   };
 
@@ -168,7 +202,7 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
-      element:<Read searchedPosts={searchedPosts} updateLikeCount={updateLikeCount} deletePost={deletePost} user={user} />
+      element:<Read searchedPosts={searchedPosts} updateLikeCount={updateLikeCount} updateRetweet={updateRetweet} deletePost={deletePost} user={user} />
     },
     {
       path:"/new",

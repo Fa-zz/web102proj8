@@ -8,6 +8,11 @@ const Profile = ({user, updateLikeCount, deletePost}) => {
     const {username} = useParams();
     const [userPosts, setUserPosts] = useState([]);
 
+    // Filters for posts created by user
+    const onClickFilterPosts = () => {
+        fetchUserPosts();
+    }
+
     const fetchUserPosts = async () => {
         const { data, error } = await supabase
             .from('posts')
@@ -36,6 +41,11 @@ const Profile = ({user, updateLikeCount, deletePost}) => {
                     </Link>
                 </>
             </h3>
+            <div className="filters">
+                <p>View:</p>
+                <button onClick={onClickFilterPosts}>Posts</button>
+                {/* <button onClick={onClickSortLike}>Retweets</button> */}
+            </div>
             {
                 userPosts && userPosts.length > 0 ?
                 [...userPosts]
