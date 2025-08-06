@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { supabase } from '../client'
 import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+
 
 const Create = ({user, getMeme, createPost}) => {
+    const fileInputRef = useRef(null);
     const navigate = useNavigate();
 
     const [newPost, setNewPost] = useState({author: user, body: "", img_url: "", title: ""})
@@ -17,6 +20,44 @@ const Create = ({user, getMeme, createPost}) => {
             }
         })
     }
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        // Upload to Supabase Storage
+        const { error: uploadError } = await supabase
+            .storage
+            .from('post-images')
+            .upload(filePath, file);
+
+        if (uploadError) {
+            console.error("Error uploading file:", uploadError.message);
+            return;
+        }
+
+        // Get public URL
+        const { data: publicUrlData } = supabase
+            .storage
+            .from('post-images')
+            .getPublicUrl(filePath);
+
+        if (publicUrlData?.publicUrl) {
+            setNewPost(prevState => ({
+            ...prevState,
+            img_url: publicUrlData.publicUrl
+            }));
+        }
+
+        // Reset file input display
+        event.target.value = "";
+        fileInputRef.current.value = ""; // reset file input
+    };
+
     return (
         <div className="create-post-form">
             <h2>What's on your mind?</h2>
@@ -49,6 +90,14 @@ const Create = ({user, getMeme, createPost}) => {
                 value={newPost.img_url}
                 onChange={handleChange}
                 />
+
+                <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                />
+
                 <button onClick={() => {
                         getMeme()
                         .then((data) => {
@@ -65,7 +114,13 @@ const Create = ({user, getMeme, createPost}) => {
                     type="button">Get a random meme
                 </button>
 
-                {newPost.img_url ? <img src={newPost.img_url} alt="Post image" /> : null}
+                {newPost.img_url ? (
+                <img
+                    src={newPost.img_url}
+                    alt="Post preview"
+                    style={{ maxWidth: '300px', marginTop: '1rem' }}
+                />
+                ) : null}
 
                 <input
                 type="submit"
