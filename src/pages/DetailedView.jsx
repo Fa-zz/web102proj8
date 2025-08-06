@@ -1,88 +1,42 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { supabase } from '../client'
+// import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount, user, fetchPosts, deletePost}) => {
+const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost, fetchComments, post, comments, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
-    const [post, setPost] = useState([])
-    const [comments, setComments] = useState([])
+    // const [post, setPost] = useState([])
+    // const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState({ author: "", body: "" });
     const navigate = useNavigate();
 
-
-    const fetchPost = async () => {
-        const { data, error } = await supabase
-            .from('posts')
-            .select('*')
-            .eq('id', id)
-            .single();
-            if (error) {
-                console.error("Error fetching member:", error);
-            } else {
-                setPost(data);
-            }
-    };
-
-    // Get the post
+    // Get the post and comments
     useEffect(() => {
-        fetchPost();
+        fetchPost(id);
+        fetchComments(id);
     }, [id]);
 
 
-    const fetchComments = async () => {
-        const { data, error } = await supabase
-            .from('comments')
-            .select('*')
-            .eq('post_id', id)
-            if (error) {
-                console.error("Error fetching member:", error);
-            } else {
-                setComments(data);
-            }
-    };
+    // const createComment = async (event) => {
+    //     event.preventDefault();
+    //     const { data, error } = await supabase
+    //         .from('comments')
+    //         .insert({ author: newComment.author, body: newComment.body, post_id: id })
+    //         .select();
 
-    // Get comments under post
-    useEffect(() => {
-        fetchComments();
-    }, [id]);
-
-    const createComment = async (event) => {
-        event.preventDefault();
-        const { data, error } = await supabase
-            .from('comments')
-            .insert({ author: newComment.author, body: newComment.body, post_id: id })
-            .select();
-
-        if (error) {
-            console.error("Error creating comment:", error);
-        } else {
-            console.log("Successfully created:", data);
-        }
-        fetchComments();
-    }
+    //     if (error) {
+    //         console.error("Error creating comment:", error);
+    //     } else {
+    //         console.log("Successfully created:", data);
+    //     }
+    //     fetchComments();
+    // }
 
     const handlePostLikeClick = (id, likeCount) => {
         updateLikeCount(id, likeCount);
         fetchPost();
     };
-
-    // Called when like button for a comment is clicked
-    const handleCommentLikeClick = async (itemID, oldLikeCount) => {
-        {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
-        const newLikeCount = oldLikeCount + 1;
-
-        const { error } = await supabase
-            .from('comments')
-            .update({ like_count: newLikeCount })
-            .eq('id', itemID);
-
-        if (error) {
-            console.error("Error updating comment like count:", error.message);
-        }
-        fetchComments();
-    }
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -96,7 +50,7 @@ const DetailedView = ({updateLikeCount, user, fetchPosts, deletePost}) => {
 
     return (
         <div className="post-container">
-            <button className="go-back-btn" onClick={() => {fetchPosts(); navigate('/');}}>⬅️ Go to feed</button>
+            <button className="go-back-btn" onClick={() => {navigate('/');}}>⬅️ Go to feed</button>
             <br /><br />
             <h3>{post.title} by @{post.author}</h3>
             {(post.img_url && post.img_url !== "NULL") && <img src={post.img_url} alt="Post image" />}
@@ -155,7 +109,7 @@ const DetailedView = ({updateLikeCount, user, fetchPosts, deletePost}) => {
                     onChange={handleChange}
                 />
 
-                <input type="submit" value="Submit" onClick={createComment} />
+                {/* <input type="submit" value="Submit" onClick={createComment} /> */}
             </form>
 
             <br /><br /><br />
@@ -170,7 +124,7 @@ const DetailedView = ({updateLikeCount, user, fetchPosts, deletePost}) => {
                     <p>@{item.author}</p>
                     <p>{item.body}</p>
                     <button
-                    onClick={() => handleCommentLikeClick(item.id, item.like_count)}
+                    onClick={() => updateCommentLikeCount(item.id, item.like_count)}
                     className="like-btn"
                     >
                     ❣️ {item.like_count}

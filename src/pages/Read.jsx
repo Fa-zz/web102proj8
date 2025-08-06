@@ -11,7 +11,7 @@ const ascDateSort = (a, b) =>  dayjs(a.created_at).valueOf() - dayjs(b.created_a
 const descLikeSort = (a, b) => b.like_count - a.like_count;
 const ascLikeSort = (a, b) =>  a.like_count - b.like_count;
 
-const Read = ({posts, updateLikeCount, user, deletePost}) => {
+const Read = ({searchedPosts, updateLikeCount, user, deletePost}) => {
     const navigate = useNavigate();
     // const [posts, setPosts] = useState([]) // acquired from querying db after initial render, and when like button is clicked (see Card component)
     const [sortDateScheme, setDateSortScheme] = useState('a'); // the default scheme to sort date. 'd' for desc, 'a' for asc
@@ -52,10 +52,11 @@ const Read = ({posts, updateLikeCount, user, deletePost}) => {
         navigate('/');
     }
 
-    // // When page initially loads, get all posts
+    // // When page initially loads or when searchedPosts changes, get all posts
     // useEffect(() => {
-    //     setPosts(posts);
-    // }, [])
+    //     console.log("Read.jsx useEffect kicked in", searchedPosts);
+    //     setPosts(searchedPosts);
+    // }, [searchedPosts])
 
     // Gets a specific post by id (currently unused)
     const selectDataById = async (targetId) => {
@@ -84,8 +85,8 @@ const Read = ({posts, updateLikeCount, user, deletePost}) => {
                 <button>Retweets</button>
             </div>
             {
-                posts && posts.length > 0 ?
-                [...posts]
+                searchedPosts && searchedPosts.length > 0 ?
+                [...searchedPosts]
                 .sort((a, b) => {
                     if (sortingWhat === 'd') {
                         const dateSortFn = sortDateOrder(sortDateScheme);

@@ -2,28 +2,9 @@ import { useState } from 'react'
 import { supabase } from '../client'
 import { useNavigate } from 'react-router-dom';
 
-const Create = ({user, getMeme}) => {
+const Create = ({user, getMeme, createPost}) => {
     const navigate = useNavigate();
 
-    const create = async (event) => {
-        event.preventDefault();
-        try {
-            const { data, error } = await supabase
-                .from('posts')
-                .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 10 })
-                .select();
-
-            if (error) {
-                console.error("Error creating post:", error);
-            } else {
-                console.log("Successfully created:", data);
-                let id = data[0].id
-                navigate(`/view/${id}`);
-            }
-        } catch (error) {
-            console.error("Unexpected error:", error);
-        }
-    }
     const [newPost, setNewPost] = useState({author: user, body: "", img_url: "", title: ""})
 
     const handleChange = (event) => {
@@ -86,7 +67,14 @@ const Create = ({user, getMeme}) => {
 
                 {newPost.img_url ? <img src={newPost.img_url} alt="Post image" /> : null}
 
-                <input type="submit" value="Submit" onClick={create} />
+                <input
+                type="submit"
+                value="Submit"
+                onClick={(e) => {
+                    e.preventDefault(); // ⛔ prevent page refresh
+                    createPost(newPost);
+                }}
+                />
             </form>
         </div>
     )
