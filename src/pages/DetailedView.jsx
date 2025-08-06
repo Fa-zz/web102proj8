@@ -62,10 +62,25 @@ const DetailedView = ({updateLikeCount}) => {
         fetchComments();
     }
 
-    const handleLikeClick = (id, likeCount) => {
+    const handlePostLikeClick = (id, likeCount) => {
         updateLikeCount(id, likeCount);
         fetchPost();
     };
+
+    // Called when like button for a comment is clicked
+    const handleCommentLikeClick = async (itemID, oldLikeCount) => {
+        const newLikeCount = oldLikeCount + 1;
+
+        const { error } = await supabase
+            .from('comments')
+            .update({ like_count: newLikeCount })
+            .eq('id', itemID);
+
+        if (error) {
+            console.error("Error updating comment like count:", error.message);
+        }
+        fetchComments();
+    }
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -85,7 +100,7 @@ const DetailedView = ({updateLikeCount}) => {
             <br />
             <p>{post.body}</p>
             <button
-                onClick={() => handleLikeClick(id, post.like_count)}
+                onClick={() => handlePostLikeClick(id, post.like_count)}
                 className="like-btn"
                 >
                 ❤️ {post.like_count}
@@ -111,7 +126,7 @@ const DetailedView = ({updateLikeCount}) => {
             {comments.map(item => (
                 <li key={item.id}>
                 <p>@{item.author}</p>
-                <button>❣️ {item.like_count}</button>
+                <button onClick={() => handleCommentLikeClick(item.id, item.like_count)}>❣️ {item.like_count}</button>
                 <p>{item.body}</p>
                 </li>
             ))}

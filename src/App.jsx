@@ -58,7 +58,6 @@ const App = () => {
           console.error("Error updating like count:", error.message);
       }
       fetchPosts();
-      // navigate('/');
   }
 
   // ROUTES
