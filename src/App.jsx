@@ -6,7 +6,7 @@ import Read from './pages/Read';
 import Create from './pages/Create';
 import { supabase } from './client'
 // import Edit from './pages/Edit';
-// import DetailedView from './pages/DetailedView';
+import DetailedView from './pages/DetailedView';
 import './App.css'
 
 
@@ -17,14 +17,14 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Gets all posts
-const fetchPosts = async () => {
-  try {
-    const { data } = await supabase.from("posts").select();
-    setMainPosts(data);
-  } catch (error) {
-    console.log("Error reading posts ", error);
-  }
-};
+  const fetchPosts = async () => {
+    try {
+      const { data } = await supabase.from("posts").select();
+      setMainPosts(data);
+    } catch (error) {
+      console.log("Error reading posts ", error);
+    }
+  };
 
   // When page initially loads, get all posts
   useEffect(() => {
@@ -53,7 +53,12 @@ const fetchPosts = async () => {
     {
       path:"/new",
       element: <Create />
+    },
+    {
+      path:"/view/:id",
+      element: <DetailedView />
     }
+
     // ,
     // {
     //   path:"/edit/:id",

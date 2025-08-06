@@ -109,7 +109,7 @@ const Read = ({fetchPosts, posts}) => {
                     }
                 })
                 .map((member, index) => (
-                    <Card
+                <Card
                     id={member.id}
                     created_at={member.created_at}
                     body={member.body}
@@ -118,8 +118,7 @@ const Read = ({fetchPosts, posts}) => {
                     img_url={member.img_url}
                     title={member.title}
                     onClickLike={updateLikeCount}
-                    key={member.id}
-                    />
+                />
                 )) : <h2>{'No members in posts 😞'}</h2>
             }
         </div>  

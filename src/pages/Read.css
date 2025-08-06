@@ -22,3 +22,8 @@
   padding: 10px 20px;
   cursor: pointer;
 }
+
+.card-link {
+  text-decoration: none;
+  color: inherit; /* Optional: preserve original text color */
+}

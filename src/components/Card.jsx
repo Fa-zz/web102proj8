@@ -8,13 +8,22 @@ const Card = (props) =>  {
 
     dayjs.extend(relativeTime);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/view/${props.id}`);
+    };
+
+    const handleLikeClick = (e) => {
+        e.stopPropagation(); // 🚫 Prevent card click from firing
+        props.onClickLike(props.id); // ❤️ Increase like count
+    };
 
     const readable = dayjs(props.created_at).format("MMMM D, YYYY h:mm A");
 
     return (
         <div className="tweet-container">
-            <div className="tweet-card" key={props.id}>
+            <div className="tweet-card" key={props.id} onClick={handleCardClick} role="button" tabIndex={0}>
                 <div className="tweet-content">
                     <div>
                         <div className="tweet-author">{props.title} • @{props.author}</div>
@@ -26,7 +35,13 @@ const Card = (props) =>  {
                     <div className="tweet-footer">
                         <div className="tweet-time">{readable}</div>
                         <div className="card-buttons">
-                            <button onClick={() => props.onClickLike(props.id, props.like_count)} className="like-btn">
+                            <button
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents triggering the parent link, which is link to DetailedView
+                                props.onClickLike(props.id, props.like_count);
+                            }}
+                            className="like-btn"
+                            >
                             ❤️ {props.like_count}
                             </button>
                             <button className="retweet-btn">🔁</button>
