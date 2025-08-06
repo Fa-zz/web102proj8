@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../client'
 import { useNavigate, useParams } from 'react-router-dom';
 
-const Edit = ({deletePost, user}) => {
-    const navigate = useNavigate();
+const Edit = ({deletePost, updatePost, user}) => {
+    // const navigate = useNavigate();
     const [post, setPost] = useState({author: user, body: "", img_url: "", title: ""})
     const {id} = useParams()
 
@@ -25,22 +25,6 @@ const Edit = ({deletePost, user}) => {
             fetchPost();
         }, [id]);
     
-    const updatePost = async (event) => {
-        event.preventDefault();
-
-        const { data, error } = await supabase
-            .from('posts')
-            .update({author: user, body: post.body, img_url: post.img_url, title: post.title})
-            .eq('id', id);
-
-            if (error) {
-                console.error("Error editing post:", error);
-            } else {
-                console.log("Successfully editing:", data);
-                navigate(`/view/${id}`);
-            }
-    }
-
     const handleChange = (event) => {
         const {name, value} = event.target
         setPost( (prev) => {
@@ -85,7 +69,7 @@ const Edit = ({deletePost, user}) => {
 
                 <button className='delete-btn' onClick={() => deletePost(id)} type="button">Delete post</button>
 
-                <input type="submit" value="Submit" onClick={updatePost} />
+                <input type="submit" value="Submit" onClick={(e) => {e.preventDefault(); updatePost(id, post);}} />
             </form>
         </div>
     )

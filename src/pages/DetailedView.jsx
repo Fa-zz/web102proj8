@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-// import { supabase } from '../client'
+import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
@@ -14,15 +14,24 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, del
     const [post, setPost] = useState(null);
 
     useEffect(() => {
-        const foundPost = posts.find(p => p.id === parseInt(id));
-        console.log("Re-evaluated post in DetailedView:", foundPost);
-        if (foundPost && liked) {
-            foundPost.like_count = foundPost.like_count + 1;
-            setPost(foundPost);
-            setLiked(false);
-        } else {
-            setPost(foundPost);
-        }
+        const fetchPostById = async () => {
+            const { data, error } = await supabase
+                .from('posts')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (!error && data) {
+                setPost(data);
+                if (liked) {
+                    post.like_count = post.like_count + 1;
+                    setPost(post);
+                    setLiked(false);
+                }
+            }
+        };
+
+        fetchPostById();
     }, [posts, id, liked]);
 
     if (!post) return <div>Serving up your post...</div>;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useRoutes, useNavigate } from 'react-router-dom'
+import { useRoutes, useNavigate, useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { supabase } from './client'
 import Navbar from './components/Navbar';
@@ -13,7 +13,7 @@ import './App.css'
 
 
 const App = () => {
-  // const [theme, setTheme] = useState('light');
+  const location = useLocation();
   const [user, setUser] = useState("");
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
@@ -22,6 +22,12 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   let memeApiUrl = "https://meme-api.com/gimme";
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      fetchPosts();  // ← triggered when coming back to the feed
+    }
+  }, [location.pathname]);
 
   // Gets all posts
   const fetchPosts = async () => {
@@ -100,6 +106,22 @@ const App = () => {
     }
   }, [searchTerm, mainPosts]);
 
+  // Create Post: Can create a post from form in navbar
+  const createPost = async (newPost) => {
+    const { data, error } = await supabase
+      .from('posts')
+      .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 10 })
+      .select();              // Fetch the inserted row(s)
+
+    if (!error && data && data.length > 0) {
+      console.log(data);
+      setSearchedPosts(prev => [...prev, data[0]]);  // Add the new post to state
+      navigate(`/view/${data[0].id}`); // go to new post DetailedView
+    } else {
+      console.error("Error creating post:", error);
+    }
+  };
+
   // Called when like button is clicked, either in Card component or DetailedView. Increments the like count of a post, then re-fetches all posts
   const updateLikeCount = async (id, oldLikeCount) => {
     {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
@@ -121,8 +143,6 @@ const App = () => {
           post.id === id ? { ...post, like_count: post.like_count + 1 } : post
         )
       );
-      // // update individual post to 
-      // fetchPostInState(id);
     }
     // fetchPosts();
   }
@@ -142,6 +162,24 @@ const App = () => {
         // fetchComments();
     }
 
+  const updatePost = async (id, updatedData) => {
+    const { data, error } = await supabase
+      .from('posts')
+      .update({author: updatedData.author, body: updatedData.body, img_url: updatedData.img_url, title: updatedData.title})
+      .eq('id', id)
+      .select();
+
+    if (!error && data) {
+      console.log(data);
+      setMainPosts(prev =>
+        prev.map(post => (post.id === id ? { ...post, ...updatedData } : post))
+      );
+      navigate(`/view/${data[0].id}`); // go to new post DetailedView
+    } else {
+      console.log("error: ", error);
+    }
+  };
+
   // Delete post is called when a user deletes their post either from feed (Read) or DetailedView views
   const deletePost = async (id) => {
       const { error } = await supabase
@@ -158,22 +196,6 @@ const App = () => {
         setMainPosts(prev => prev.filter(post => post.id !== id));
       }
   }
-
-  // Create Post: Can create a post from form in navbar
-  const createPost = async (newPost) => {
-    const { data, error } = await supabase
-      .from('posts')
-      .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 10 })
-      .select();              // Fetch the inserted row(s)
-
-    if (!error && data && data.length > 0) {
-      console.log(data);
-      setSearchedPosts(prev => [...prev, data[0]]);  // Add the new post to state
-      navigate(`/view/${data[0].id}`); // go to new post DetailedView
-    } else {
-      console.error("Error creating post:", error);
-    }
-  };
 
   // Gets a random meme, for creating a post
   async function getMeme() {
@@ -213,7 +235,7 @@ const App = () => {
     },
     {
       path:"/edit/:id",
-      element: <Edit deletePost={deletePost} user={user} />
+      element: <Edit deletePost={deletePost} updatePost={updatePost} user={user} />
     }
   ]);
 
