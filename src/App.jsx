@@ -187,7 +187,7 @@ const App = () => {
     },
     {
       path:"/edit/:id",
-      element: <Edit deletePost={deletePost} updatePost={updatePost} user={user} />
+      element: <Edit deletePost={deletePost} updatePost={updatePost} user={user} getMeme={getMeme} />
     }
   ]);
 

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { supabase } from '../client'
 import { useRef } from 'react';
 
-
 const Create = ({user, getMeme, createPost}) => {
     const fileInputRef = useRef(null);
 
