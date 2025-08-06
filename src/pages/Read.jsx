@@ -51,26 +51,6 @@ const Read = ({searchedPosts, updateLikeCount, user, deletePost}) => {
         navigate('/');
     }
 
-    // // When page initially loads or when searchedPosts changes, get all posts
-    // useEffect(() => {
-    //     console.log("Read.jsx useEffect kicked in", searchedPosts);
-    //     setPosts(searchedPosts);
-    // }, [searchedPosts])
-
-    // Gets a specific post by id (currently unused)
-    // const selectDataById = async (targetId) => {
-    //     const { data, error } = await supabase
-    //         .from('posts')
-    //         .select('*') // Selects all columns. You can specify specific columns like 'name, email'
-    //         .eq('id', targetId); // Filters where the 'idColumnName' matches 'targetId'
-
-    //     if (error) {
-    //         console.error('Error fetching data:', error.message);
-    //         return null;
-    //     }
-    //     return data;
-    // }
-
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>
@@ -116,7 +96,7 @@ const Read = ({searchedPosts, updateLikeCount, user, deletePost}) => {
                     onClickLike={updateLikeCount}
                     deletePost={deletePost}
                 />
-                )) : <h2>{'No members in posts 😞'}</h2>
+                )) : <h2>{'No posts on your feed 😞'}</h2>
             }
         </div>  
     )

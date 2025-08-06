@@ -20,7 +20,11 @@ const Navbar = ( {setSearchTerm, user, setUser}) => {
             </Link>
 
             <ul>
-                <li>About</li>
+                <li>               
+                    <Link to="/" className="headerBtn">
+                        Home
+                    </Link>
+                </li>
                 <li>
                 <Link
                     to="/new"

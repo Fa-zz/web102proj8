@@ -8,7 +8,7 @@ const DetailedView = ({updateLikeCount, user, posts, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
     const navigate = useNavigate();
     const [liked, setLiked] = useState(false);
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({ author: "", body: "" });
     const [post, setPost] = useState(null);
 

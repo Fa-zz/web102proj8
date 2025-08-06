@@ -192,7 +192,7 @@ const App = () => {
     },
     {
       path:"/profile/:username",
-      element: <Profile posts={mainPosts} />
+      element: <Profile user={user} updateLikeCount={updateLikeCount} delete={deletePost} />
     }
   ]);
 
