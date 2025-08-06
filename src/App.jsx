@@ -20,7 +20,7 @@ const App = () => {
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  let memeApiUrl = "https://meme-api.com/gimme";
+  let memeApiUrl = "https://meme-api.com/gimme/ProgrammerHumor";
 
   useEffect(() => {
     if (location.pathname === "/") {
