@@ -8,7 +8,6 @@ const DetailedView = ({updateLikeCount, user, posts, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
     const navigate = useNavigate();
     const [liked, setLiked] = useState(false);
-    // const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState({ author: "", body: "" });
     const [post, setPost] = useState(null);
@@ -54,13 +53,14 @@ const DetailedView = ({updateLikeCount, user, posts, deletePost}) => {
         event.preventDefault();
         const { data, error } = await supabase
             .from('comments')
-            .insert({ author: newComment.author, body: newComment.body, post_id: id })
+            .insert({ author: user, body: newComment.body, post_id: id })
             .select();
 
         if (error) {
             console.error("Error creating comment:", error);
         } else {
             console.log("Successfully created:", data);
+            setNewComment({ author: "", body: "" });
         }
         fetchComments();
     }
@@ -134,16 +134,7 @@ const DetailedView = ({updateLikeCount, user, posts, deletePost}) => {
 
             <h3>Add a comment, join the conversation</h3>
             <form>
-                <label htmlFor="author">Author</label>
-                <input
-                    type="text"
-                    id="author"
-                    name="author"
-                    value={newComment.author}
-                    onChange={handleChange}
-                />
-
-                <label htmlFor="body">Body</label>
+                {/* <label htmlFor="body">Text</label> */}
                 <input
                     type="text"
                     id="body"
