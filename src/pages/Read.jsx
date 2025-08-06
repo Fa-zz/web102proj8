@@ -11,9 +11,9 @@ const ascDateSort = (a, b) =>  dayjs(a.created_at).valueOf() - dayjs(b.created_a
 const descLikeSort = (a, b) => b.like_count - a.like_count;
 const ascLikeSort = (a, b) =>  a.like_count - b.like_count;
 
-const Read = () => {
+const Read = ({fetchPosts, posts}) => {
     const navigate = useNavigate();
-    const [posts, setPosts] = useState([]) // acquired from querying db after initial render, and when like button is clicked (see Card component)
+    // const [posts, setPosts] = useState([]) // acquired from querying db after initial render, and when like button is clicked (see Card component)
     const [sortDateScheme, setDateSortScheme] = useState('a'); // the default scheme to sort date. 'd' for desc, 'a' for asc
     const [sortLikeScheme, setLikeSortScheme] = useState('a'); // the default scheme to sort likes
     const [sortingWhat, setSortingWhat] = useState('d'); // posts can only be sorted by one value at a time. This controls what is being sorted. 'd' for date, 'l' for likes
@@ -52,24 +52,10 @@ const Read = () => {
         navigate('/');
     }
 
-    // Gets all posts
-    const fetchPosts = async () => {
-        try {
-            const {data} = await supabase
-                .from('posts')
-                .select();
-            // set state of posts
-                setPosts(data)
-            } catch (error) {
-                console.log("Error reading posts ", error)
-            }
-    }  
-
-    // When page initially loads, get all posts
-    useEffect(() => {
-        // READ all post from table
-        fetchPosts();
-    }, [])
+    // // When page initially loads, get all posts
+    // useEffect(() => {
+    //     setPosts(posts);
+    // }, [])
 
     // Gets a specific post by id (currently unused)
     const selectDataById = async (targetId) => {

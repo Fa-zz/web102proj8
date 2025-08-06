@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import './Navbar.css';
 import logo_light from '../assets/logo-black.png'
 // import logo_dark from '../assets/logo-white.png'
@@ -7,10 +8,13 @@ import search_icon_light from '../assets/search-w.png'
 // import toggle_light from '../assets/night.png'
 // import toggle_dark from '../assets/day.png'
 
-const Navbar = ( {theme, setTheme}) => {
+const Navbar = ( {theme, setTheme, onSearchClick}) => {
     const toggle_mode = () => {
         theme == 'light' ? setTheme('dark'): setTheme()
     }
+
+    const [searchTerm, setSearchTerm] = useState("");
+
 
     return (
         <div className='navbar'>
@@ -22,8 +26,8 @@ const Navbar = ( {theme, setTheme}) => {
                 <Link to="/new"><li className="headerBtn"> Create new post </li></Link>
             </ul>
             <div className='search-box'>
-                <input type="text" placeholder='Search posts'/>
-                <img src={search_icon_light} alt=""/>
+                <input type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder='Search posts'/>
+                <img onClick={() => onSearchClick(searchTerm)} src={search_icon_light} alt=""/>
             </div>
         </div>
     );
