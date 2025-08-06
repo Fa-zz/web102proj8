@@ -86,7 +86,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView updateLikeCount={updateLikeCount} user={user} fetchPosts={fetchPosts} />
+      element: <DetailedView updateLikeCount={updateLikeCount} user={user} fetchPosts={fetchPosts} deletePost={deletePost} />
     },
     {
       path:"/signup",

@@ -4,7 +4,7 @@ import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount, user, fetchPosts}) => {
+const DetailedView = ({updateLikeCount, user, fetchPosts, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
     const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
@@ -102,12 +102,36 @@ const DetailedView = ({updateLikeCount, user, fetchPosts}) => {
             {(post.img_url && post.img_url !== "NULL") && <img src={post.img_url} alt="Post image" />}
             <p>{post.body}</p>
 
-            <button
-            onClick={() => handlePostLikeClick(id, post.like_count)}
-            className="like-btn"
-            >
-            ❤️ {post.like_count}
-            </button>
+            <div className="btn-group">
+                <button
+                onClick={() => handlePostLikeClick(id, post.like_count)}
+                className="like-btn"
+                >
+                ❤️ {post.like_count} Likes
+                </button>
+                {
+                    post.author === user &&
+                    <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/edit/${post.id}`)
+                    }}
+                    className="edit-btn"
+                    >📝 Edit this post
+                    </button>
+                }
+                {
+                    post.author === user &&
+                    <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        deletePost(post.id);
+                    }}
+                    className="delete-btn"
+                    >🚮 Delete this post
+                    </button>
+                }
+            </div>
 
             <br /><br /><br />
 

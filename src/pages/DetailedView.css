@@ -42,6 +42,40 @@
   transform: scale(1.1);
 }
 
+/* Edit button for post */
+.edit-btn {
+  background-color: transparent;
+  border: none;
+  color: #24b7e0;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.1s ease-in-out;
+}
+
+.edit-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Delete button for post */
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: #e0cd24;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.1s ease-in-out;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
 /* Comment form */
 form {
   margin-top: 2rem;
