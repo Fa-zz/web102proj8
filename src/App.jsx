@@ -5,10 +5,10 @@ import { supabase } from './client'
 import Navbar from './components/Navbar';
 import Read from './pages/Read';
 import Create from './pages/Create';
-// import Edit from './pages/Edit';
 import DetailedView from './pages/DetailedView';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
+import Edit from './pages/Edit';
 import './App.css'
 
 
@@ -18,7 +18,7 @@ const App = () => {
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Gets all posts
   const fetchPosts = async () => {
@@ -64,11 +64,21 @@ const App = () => {
     fetchPosts();
   }
 
+  const deletePost = async (id) => {
+      await supabase
+          .from('posts')
+          .delete()
+          .eq('id', id); 
+
+      navigate('/');
+      fetchPosts();
+  }
+
   // ROUTES
   let element = useRoutes([
     {
       path: "/",
-      element:<Read posts={searchedPosts} updateLikeCount={updateLikeCount} user={user} />
+      element:<Read posts={searchedPosts} updateLikeCount={updateLikeCount} deletePost={deletePost} user={user} />
     },
     {
       path:"/new",
@@ -76,7 +86,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView updateLikeCount={updateLikeCount} user={user} />
+      element: <DetailedView updateLikeCount={updateLikeCount} user={user} fetchPosts={fetchPosts} />
     },
     {
       path:"/signup",
@@ -85,12 +95,11 @@ const App = () => {
     {
       path:"/login",
       element: <LogIn setUser={setUser} />
+    },
+    {
+      path:"/edit/:id",
+      element: <Edit deletePost={deletePost} />
     }
-    // ,
-    // {
-    //   path:"/edit/:id",
-    //   element: <Edit />
-    // },
   ]);
 
   return ( 

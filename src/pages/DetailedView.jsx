@@ -4,7 +4,7 @@ import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount, user}) => {
+const DetailedView = ({updateLikeCount, user, fetchPosts}) => {
     const {id} = useParams() // This is the ID of the post
     const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
@@ -48,7 +48,7 @@ const DetailedView = ({updateLikeCount, user}) => {
         fetchComments();
     }, [id]);
 
-    const create = async (event) => {
+    const createComment = async (event) => {
         event.preventDefault();
         const { data, error } = await supabase
             .from('comments')
@@ -56,7 +56,7 @@ const DetailedView = ({updateLikeCount, user}) => {
             .select();
 
         if (error) {
-            console.error("Error creating post:", error);
+            console.error("Error creating comment:", error);
         } else {
             console.log("Successfully created:", data);
         }
@@ -96,7 +96,7 @@ const DetailedView = ({updateLikeCount, user}) => {
 
     return (
         <div className="post-container">
-            <button className="go-back-btn" onClick={() => navigate(-1)}>⬅️ Go back</button>
+            <button className="go-back-btn" onClick={() => {fetchPosts(); navigate('/');}}>⬅️ Go to feed</button>
             <br /><br />
             <h3>{post.title} by @{post.author}</h3>
             {(post.img_url && post.img_url !== "NULL") && <img src={post.img_url} alt="Post image" />}
@@ -131,7 +131,7 @@ const DetailedView = ({updateLikeCount, user}) => {
                     onChange={handleChange}
                 />
 
-                <input type="submit" value="Submit" onClick={create} />
+                <input type="submit" value="Submit" onClick={createComment} />
             </form>
 
             <br /><br /><br />

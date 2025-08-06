@@ -17,7 +17,8 @@ const Create = () => {
                 console.error("Error creating post:", error);
             } else {
                 console.log("Successfully created:", data);
-                navigate('/');
+                let id = data[0].id
+                navigate(`/view/${id}`);
             }
         } catch (error) {
             console.error("Unexpected error:", error);
