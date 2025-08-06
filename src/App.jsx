@@ -19,6 +19,7 @@ const App = () => {
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  let memeApiUrl = "https://meme-api.com/gimme";
 
   // Gets all posts
   const fetchPosts = async () => {
@@ -74,6 +75,19 @@ const App = () => {
       fetchPosts();
   }
 
+  async function getMeme() {
+    try {
+      const response = await fetch(memeApiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data.url;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
   // ROUTES
   let element = useRoutes([
     {
@@ -82,7 +96,7 @@ const App = () => {
     },
     {
       path:"/new",
-      element: <Create />
+      element: <Create user={user} getMeme={getMeme} />
     },
     {
       path:"/view/:id",
@@ -98,7 +112,7 @@ const App = () => {
     },
     {
       path:"/edit/:id",
-      element: <Edit deletePost={deletePost} />
+      element: <Edit deletePost={deletePost} user={user} />
     }
   ]);
 

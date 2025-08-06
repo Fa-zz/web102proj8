@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../client'
 import { useNavigate, useParams } from 'react-router-dom';
 
-const Edit = ({deletePost}) => {
+const Edit = ({deletePost, user}) => {
     const navigate = useNavigate();
-    const [post, setPost] = useState({author: "", body: "", img_url: "", title: ""})
+    const [post, setPost] = useState({author: user, body: "", img_url: "", title: ""})
     const {id} = useParams()
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Edit = ({deletePost}) => {
 
         const { data, error } = await supabase
             .from('posts')
-            .update({author: post.author, body: post.body, img_url: post.img_url, title: post.title})
+            .update({author: user, body: post.body, img_url: post.img_url, title: post.title})
             .eq('id', id);
 
             if (error) {
@@ -55,15 +55,6 @@ const Edit = ({deletePost}) => {
         <div className="edit-post-form">
             <h2>Update your post</h2>
             <form>
-                <label htmlFor="author">Author</label>
-                <input
-                type="text"
-                id="author"
-                name="author"
-                value={post.author}
-                onChange={handleChange}
-                />
-
                 <label htmlFor="title">Title</label>
                 <input
                 type="text"

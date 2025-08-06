@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { supabase } from '../client'
 import { useNavigate } from 'react-router-dom';
 
-const Create = () => {
+const Create = ({user, getMeme}) => {
     const navigate = useNavigate();
 
     const create = async (event) => {
@@ -24,7 +24,7 @@ const Create = () => {
             console.error("Unexpected error:", error);
         }
     }
-    const [newPost, setNewPost] = useState({author: "", body: "", img_url: "", title: ""})
+    const [newPost, setNewPost] = useState({author: user, body: "", img_url: "", title: ""})
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -40,14 +40,7 @@ const Create = () => {
         <div className="create-post-form">
             <h2>What's on your mind?</h2>
             <form>
-                <label htmlFor="author">Author</label>
-                <input
-                type="text"
-                id="author"
-                name="author"
-                value={newPost.author}
-                onChange={handleChange}
-                />
+                <h4>New post from {user}</h4>
 
                 <label htmlFor="title">Title</label>
                 <input
@@ -75,7 +68,23 @@ const Create = () => {
                 value={newPost.img_url}
                 onChange={handleChange}
                 />
-                <button type="button">Get a random meme</button>
+                <button onClick={() => {
+                        getMeme()
+                        .then((data) => {
+                            console.log("Fetched meme data:", data);
+                            setNewPost(prevState => ({
+                                ...prevState,
+                                img_url: data
+                            }));
+                        })
+                        .catch((error) => {
+                            console.error("Error in getting meme:", error);
+                        });
+                    }} 
+                    type="button">Get a random meme
+                </button>
+
+                {newPost.img_url ? <img src={newPost.img_url} alt="Post image" /> : null}
 
                 <input type="submit" value="Submit" onClick={create} />
             </form>
