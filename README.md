@@ -70,6 +70,8 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
+Note for grader: Please click on the thumbnail or the hyperlink Twitter - 6 August 2025 - Watch Video To see the full .gif.
+
 <div>
     <a href="https://www.loom.com/share/9ffcd48d20684a7c879f0d46a8b31721">
       <p>Twitter - 6 August 2025 - Watch Video</p>
