@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useRoutes, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { supabase } from './client'
 import Navbar from './components/Navbar';
 import Read from './pages/Read';
 import Create from './pages/Create';
-import { supabase } from './client'
 // import Edit from './pages/Edit';
 import DetailedView from './pages/DetailedView';
+import SignUp from './pages/SignUp';
 import './App.css'
 
 
 const App = () => {
   // const [theme, setTheme] = useState('light');
+  const [user, setUser] = useState("");
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,7 +66,7 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
-      element:<Read posts={searchedPosts} updateLikeCount={updateLikeCount} />
+      element:<Read posts={searchedPosts} updateLikeCount={updateLikeCount} user={user} />
     },
     {
       path:"/new",
@@ -73,6 +75,10 @@ const App = () => {
     {
       path:"/view/:id",
       element: <DetailedView updateLikeCount={updateLikeCount} />
+    },
+    {
+      path:"/signup",
+      element: <SignUp setUser={setUser} />
     }
 
     // ,
@@ -80,10 +86,6 @@ const App = () => {
     //   path:"/edit/:id",
     //   element: <Edit />
     // },
-    // {
-    //   path:"/view/:id",
-    //   element: <DetailedView />
-    // }
   ]);
 
   return ( 

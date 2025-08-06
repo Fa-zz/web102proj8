@@ -109,27 +109,28 @@ const DetailedView = ({updateLikeCount}) => {
             </button>
 
             <br /><br /><br />
+
             <h3>Add a comment, join the conversation</h3>
             <form>
-            <label htmlFor="author">Author</label>
-            <input
-                type="text"
-                id="author"
-                name="author"
-                value={newComment.author}
-                onChange={handleChange}
-            />
+                <label htmlFor="author">Author</label>
+                <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    value={newComment.author}
+                    onChange={handleChange}
+                />
 
-            <label htmlFor="body">Body</label>
-            <input
-                type="text"
-                id="body"
-                name="body"
-                value={newComment.body}
-                onChange={handleChange}
-            />
+                <label htmlFor="body">Body</label>
+                <input
+                    type="text"
+                    id="body"
+                    name="body"
+                    value={newComment.body}
+                    onChange={handleChange}
+                />
 
-            <input type="submit" value="Submit" onClick={create} />
+                <input type="submit" value="Submit" onClick={create} />
             </form>
 
             <br /><br /><br />

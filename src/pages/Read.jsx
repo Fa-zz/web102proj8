@@ -11,7 +11,7 @@ const ascDateSort = (a, b) =>  dayjs(a.created_at).valueOf() - dayjs(b.created_a
 const descLikeSort = (a, b) => b.like_count - a.like_count;
 const ascLikeSort = (a, b) =>  a.like_count - b.like_count;
 
-const Read = ({posts, updateLikeCount}) => {
+const Read = ({posts, updateLikeCount, user}) => {
     const navigate = useNavigate();
     // const [posts, setPosts] = useState([]) // acquired from querying db after initial render, and when like button is clicked (see Card component)
     const [sortDateScheme, setDateSortScheme] = useState('a'); // the default scheme to sort date. 'd' for desc, 'a' for asc
@@ -73,7 +73,10 @@ const Read = ({posts, updateLikeCount}) => {
 
     return (
         <div>
-            <h3 style={{ textAlign: 'center' }}>Your feed</h3>
+            <h3 style={{ textAlign: 'center' }}>
+                {user === "" ? 'Your feed (not signed in)' : user + '\'s feed' }
+            </h3>
+            
             <div className="filters">
                 <p>Sort:</p>
                 <button onClick={onClickSortDate}>Date</button>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import './Navbar.css';
 import logo1 from '../assets/logo1.jpg'
@@ -13,6 +13,8 @@ const Navbar = ( {setSearchTerm}) => {
     //     theme == 'light' ? setTheme('dark'): setTheme()
     // }
 
+    const navigate = useNavigate();
+
     const handleKeyPress = (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -23,12 +25,13 @@ const Navbar = ( {setSearchTerm}) => {
 
     return (
         <div className='navbar'>
-            <img src={logo1} alt="" className='logo'/>
+             <Link to="/"><img src={logo1} alt="" className='logo'/></Link>
             <ul>
-                <Link to="/"><li className="headerBtn"> Home </li></Link>
                 <li>About</li>
                 {/* <li>Create new post</li> */}
                 <Link to="/new"><li className="headerBtn"> Create new post </li></Link>
+                <Link to="/signup"><li className="headerBtn"> Sign up </li></Link>
+                <Link to="/login"><li className="headerBtn"> Log in </li></Link>
             </ul>
             <div className='search-box'>
                 <input type="text" onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} placeholder='Search posts'/>
