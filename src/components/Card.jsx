@@ -14,11 +14,6 @@ const Card = (props) =>  {
         navigate(`/view/${props.id}`);
     };
 
-    const handleLikeClick = (e) => {
-        e.stopPropagation(); // 🚫 Prevent card click from firing
-        props.onClickLike(props.id); // ❤️ Increase like count
-    };
-
     const readable = dayjs(props.created_at).format("MMMM D, YYYY h:mm A");
 
     return (

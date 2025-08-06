@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useRoutes } from 'react-router-dom'
+import { useRoutes, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Read from './pages/Read';
@@ -15,6 +15,7 @@ const App = () => {
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   // Gets all posts
   const fetchPosts = async () => {
@@ -44,11 +45,27 @@ const App = () => {
     }
   }, [searchTerm, mainPosts]);
 
+  // Called when like button is clicked, either in Card component or DetailedView. Increments the like count of a post, then re-fetches all posts
+  const updateLikeCount = async (id, oldLikeCount) => {
+      const newLikeCount = oldLikeCount + 1;
+
+      const { error } = await supabase
+          .from('posts')
+          .update({ like_count: newLikeCount })
+          .eq('id', id);
+
+      if (error) {
+          console.error("Error updating like count:", error.message);
+      }
+      fetchPosts();
+      // navigate('/');
+  }
+
   // ROUTES
   let element = useRoutes([
     {
       path: "/",
-      element:<Read fetchPosts={fetchPosts} posts={searchedPosts} />
+      element:<Read posts={searchedPosts} updateLikeCount={updateLikeCount} />
     },
     {
       path:"/new",
@@ -56,7 +73,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView />
+      element: <DetailedView updateLikeCount={updateLikeCount} />
     }
 
     // ,

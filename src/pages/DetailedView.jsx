@@ -3,27 +3,29 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 
-const DetailedView = () => {
+const DetailedView = ({updateLikeCount}) => {
     const {id} = useParams() // This is the ID of the post
     const [post, setPost] = useState([])
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState({ author: "", body: "" });
     const navigate = useNavigate();
 
+
+    const fetchPost = async () => {
+        const { data, error } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('id', id)
+            .single();
+            if (error) {
+                console.error("Error fetching member:", error);
+            } else {
+                setPost(data);
+            }
+    };
+
     // Get the post
     useEffect(() => {
-        const fetchPost = async () => {
-            const { data, error } = await supabase
-                .from('posts')
-                .select('*')
-                .eq('id', id)
-                .single();
-                if (error) {
-                    console.error("Error fetching member:", error);
-                } else {
-                    setPost(data);
-                }
-            };
         fetchPost();
     }, [id]);
 
@@ -60,6 +62,11 @@ const DetailedView = () => {
         fetchComments();
     }
 
+    const handleLikeClick = (id, likeCount) => {
+        updateLikeCount(id, likeCount);
+        fetchPost();
+    };
+
     const handleChange = (event) => {
         const {name, value} = event.target
         setNewComment( (prev) => {
@@ -78,13 +85,10 @@ const DetailedView = () => {
             <br />
             <p>{post.body}</p>
             <button
-            // onClick={(e) => {
-            //     e.stopPropagation(); // Prevents triggering the parent link, which is link to DetailedView
-            //     props.onClickLike(props.id, props.like_count);
-            // }}
-            // className="like-btn"
-            >
-            ❤️ {post.like_count}
+                onClick={() => handleLikeClick(id, post.like_count)}
+                className="like-btn"
+                >
+                ❤️ {post.like_count}
             </button>
             <br />
             
