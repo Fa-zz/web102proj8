@@ -33,18 +33,40 @@ const App = () => {
     }
   };
 
-  const fetchPost = async (id) => {
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .eq('id', id)
-      .single();
-      if (error) {
-          console.error("Error fetching member:", error);
-      } else {
-          setPost(data);
-      }
-  };
+  // const fetchPost = async (id) => {
+  //   console.log(searchedPosts);
+  //   const { data, error } = await supabase
+  //     .from('posts')
+  //     .select('*')
+  //     .eq('id', id)
+  //     .single();
+  //     if (error) {
+  //         console.error("Error fetching member:", error);
+  //     } else {
+  //         setPost(data);
+  //     }
+  // };
+
+  // const fetchPostInState = (idToGet) => {
+  //   console.log(searchedPosts);
+  //   const key = 'id';
+  //   for (const item of searchedPosts) {
+  //     if (item.id == idToGet) {
+  //       setPost(item);
+  //       console.log("in fetchPostInState, we just set this post to ", item);
+  //     }
+  //   }
+  //   // const { data, error } = await supabase
+  //   //   .from('posts')
+  //   //   .select('*')
+  //   //   .eq('id', id)
+  //   //   .single();
+  //   //   if (error) {
+  //   //       console.error("Error fetching member:", error);
+  //   //   } else {
+  //   //       setPost(data);
+  //   //   }
+  // };
 
   const fetchComments = async (id) => {
     const { data, error } = await supabase
@@ -65,7 +87,7 @@ const App = () => {
       fetchPosts();
   }, [])
 
-  // Recalculate searchedPosts when searchTerm or mainPosts change
+  // Recalculate searchedPosts when searchTerm or mainPosts change. Which occurs during searching for title, CRUD, and like operations
   useEffect(() => {
     console.log("App.jsx useffect kicked in, recalculates searchedPosts");
     if (!searchTerm) {
@@ -86,7 +108,9 @@ const App = () => {
     const { error } = await supabase
         .from('posts')
         .update({ like_count: newLikeCount })
-        .eq('id', id);
+        .eq('id', id)
+        .select()
+        .single();
 
     if (error) {
         console.error("Error updating like count:", error.message);
@@ -97,6 +121,8 @@ const App = () => {
           post.id === id ? { ...post, like_count: post.like_count + 1 } : post
         )
       );
+      // // update individual post to 
+      // fetchPostInState(id);
     }
     // fetchPosts();
   }
@@ -112,8 +138,6 @@ const App = () => {
 
         if (error) {
             console.error("Error updating comment like count:", error.message);
-        } else {
-
         }
         // fetchComments();
     }
@@ -177,7 +201,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView updateLikeCount={updateLikeCount} updateCommentLikeCount={updateCommentLikeCount} user={user} fetchPost={fetchPost} fetchComments={fetchComments} post={post} comments={comments} deletePost={deletePost} />
+      element: <DetailedView updateLikeCount={updateLikeCount} updateCommentLikeCount={updateCommentLikeCount} user={user} posts={searchedPosts} deletePost={deletePost} />
     },
     {
       path:"/signup",

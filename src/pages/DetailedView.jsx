@@ -4,18 +4,34 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost, fetchComments, post, comments, deletePost}) => {
+const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
+    const navigate = useNavigate();
+    const [liked, setLiked] = useState(false);
     // const [post, setPost] = useState([])
     // const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState({ author: "", body: "" });
-    const navigate = useNavigate();
+    const [post, setPost] = useState(null);
 
-    // Get the post and comments
     useEffect(() => {
-        fetchPost(id);
-        fetchComments(id);
-    }, [id]);
+        const foundPost = posts.find(p => p.id === parseInt(id));
+        console.log("Re-evaluated post in DetailedView:", foundPost);
+        if (foundPost && liked) {
+            foundPost.like_count = foundPost.like_count + 1;
+            setPost(foundPost);
+            setLiked(false);
+        } else {
+            setPost(foundPost);
+        }
+    }, [posts, id, liked]);
+
+    if (!post) return <div>Serving up your post...</div>;
+
+    // // Get the post and comments
+    // useEffect(() => {
+    //     fetchPost(id);
+    //     fetchComments(id);
+    // }, [id]);
 
 
     // const createComment = async (event) => {
@@ -33,10 +49,10 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost,
     //     fetchComments();
     // }
 
-    const handlePostLikeClick = (id, likeCount) => {
-        updateLikeCount(id, likeCount);
-        fetchPost();
-    };
+    // const handlePostLikeClick = (id, likeCount) => {
+    //     updateLikeCount(id, likeCount);
+    //     fetchPost();
+    // };
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -58,7 +74,7 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost,
 
             <div className="btn-group">
                 <button
-                onClick={() => handlePostLikeClick(id, post.like_count)}
+                onClick={() => {setLiked(true); updateLikeCount(id, post.like_count);}}
                 className="like-btn"
                 >
                 ❤️ {post.like_count} Likes
@@ -114,7 +130,7 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost,
 
             <br /><br /><br />
             <h3>Comments</h3>
-            <ul>
+            {/* <ul>
             {
             comments.length === 0 ? (
                 <p>You're the first one here :)</p>
@@ -133,7 +149,7 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, fetchPost,
                 ))
             )
             }
-            </ul>
+            </ul> */}
         </div>
     )
 }
