@@ -115,7 +115,7 @@ const Edit = ({deletePost, updatePost, user, getMeme}) => {
                         getMeme()
                         .then((data) => {
                             console.log("Fetched meme data:", data);
-                            setNewPost(prevState => ({
+                            setPost(prevState => ({
                                 ...prevState,
                                 img_url: data
                             }));
@@ -134,6 +134,8 @@ const Edit = ({deletePost, updatePost, user, getMeme}) => {
                     style={{ maxWidth: '300px', marginTop: '1rem' }}
                 />
                 ) : null}
+
+                <button className='delete-btn' onClick={() => deletePost(id)} type="button">Delete post</button>
 
                 <input type="submit" value="Submit" onClick={(e) => {e.preventDefault(); updatePost(id, post);}} />
             </form>
