@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import { supabase } from '../client'
-import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 
 
 const Create = ({user, getMeme, createPost}) => {
     const fileInputRef = useRef(null);
-    const navigate = useNavigate();
 
     const [newPost, setNewPost] = useState({author: user, body: "", img_url: "", title: ""})
 

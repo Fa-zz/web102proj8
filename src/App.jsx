@@ -17,8 +17,6 @@ const App = () => {
   const [user, setUser] = useState("");
   const [mainPosts, setMainPosts] = useState([]);
   const [searchedPosts, setSearchedPosts] = useState([]);
-  const [post, setPost] = useState([]);
-  const [comments, setComments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   let memeApiUrl = "https://meme-api.com/gimme";
@@ -28,6 +26,23 @@ const App = () => {
       fetchPosts();  // ← triggered when coming back to the feed
     }
   }, [location.pathname]);
+
+  // Load username from localStorage on initial render
+  useEffect(() => {
+    const savedUsername = localStorage.getItem('username');
+    if (savedUsername) {
+      setUser(savedUsername);
+    }
+  }, []); // Runs only once on mount
+
+  // Save username to localStorage whenever it changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('username', user);
+    } else {
+      localStorage.removeItem('username'); // Optional: clean up if username is cleared
+    }
+  }, [user]); // Runs whenever `username` changes
 
   // Gets all posts
   const fetchPosts = async () => {
@@ -181,7 +196,7 @@ const App = () => {
     <div className="App">
 
       <div className='container'>
-        <Navbar setSearchTerm={setSearchTerm} user={user} />
+        <Navbar setSearchTerm={setSearchTerm} user={user} setUser={setUser} />
 
         <div style={{ paddingTop: "60px" }}>
           {element}

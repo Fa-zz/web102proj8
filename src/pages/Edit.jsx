@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../client'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Edit = ({deletePost, updatePost, user}) => {
     // const navigate = useNavigate();

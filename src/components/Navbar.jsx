@@ -1,19 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo1 from '../assets/logo1.jpg'
-// import logo_dark from '../assets/logo-white.png'
 import search_icon_light from '../assets/search-w.png'
-// import search_icon_dark from '../assets/search-b.png'
-// import toggle_light from '../assets/night.png'
-// import toggle_dark from '../assets/day.png'
 
-const Navbar = ( {setSearchTerm, user}) => {
-    // const toggle_mode = () => {
-    //     theme == 'light' ? setTheme('dark'): setTheme()
-    // }
-
-    const navigate = useNavigate();
+const Navbar = ( {setSearchTerm, user, setUser}) => {
 
     const handleKeyPress = (event) => {
         if (event.key === "Enter") {
@@ -25,19 +15,55 @@ const Navbar = ( {setSearchTerm, user}) => {
 
     return (
         <div className='navbar'>
-             <Link to="/"><img src={logo1} alt="" className='logo'/></Link>
+            <Link to="/">
+                <img src={logo1} alt="" className='logo' />
+            </Link>
+
             <ul>
                 <li>About</li>
-                <Link   onClick={(e) => {if (user === "") {e.preventDefault(); alert("Hey you're gonna need to log in before you can do that");}}}to="/new"><li className="headerBtn"> Create new post </li></Link>
-                <Link to="/signup"><li className="headerBtn"> Sign up </li></Link>
-                <Link to="/login"><li className="headerBtn"> Log in </li></Link>
+                <li>
+                <Link
+                    to="/new"
+                    onClick={(e) => {
+                    if (user === "") {
+                        e.preventDefault();
+                        alert("Hey you're gonna need to log in before you can do that");
+                    }
+                    }}
+                    className="headerBtn"
+                >
+                    Create new post
+                </Link>
+                </li>
+                <li>
+                <Link to="/signup" className="headerBtn">
+                    Sign up
+                </Link>
+                </li>
+                <li>
+                    {user === "" ? (
+                        <Link to="/login" className="headerBtn">
+                        Log in
+                        </Link>
+                    ) : (
+                        <Link onClick={() => setUser("")} className="headerBtn">
+                        Log off
+                        </Link>
+                    )}
+                </li>
             </ul>
+
             <div className='search-box'>
-                <input type="text" onKeyDown={handleKeyPress} onChange={(e) => setSearchTerm(e.target.value)} placeholder='Search posts'/>
-                <img id="searchIcon" src={search_icon_light} alt=""/>
+                <input
+                type="text"
+                onKeyDown={handleKeyPress}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder='Search posts'
+                />
+                <img id="searchIcon" src={search_icon_light} alt="" />
             </div>
         </div>
-    );
+    )
 };
 
 export default Navbar;
