@@ -39,54 +39,6 @@ const App = () => {
     }
   };
 
-  // const fetchPost = async (id) => {
-  //   console.log(searchedPosts);
-  //   const { data, error } = await supabase
-  //     .from('posts')
-  //     .select('*')
-  //     .eq('id', id)
-  //     .single();
-  //     if (error) {
-  //         console.error("Error fetching member:", error);
-  //     } else {
-  //         setPost(data);
-  //     }
-  // };
-
-  // const fetchPostInState = (idToGet) => {
-  //   console.log(searchedPosts);
-  //   const key = 'id';
-  //   for (const item of searchedPosts) {
-  //     if (item.id == idToGet) {
-  //       setPost(item);
-  //       console.log("in fetchPostInState, we just set this post to ", item);
-  //     }
-  //   }
-  //   // const { data, error } = await supabase
-  //   //   .from('posts')
-  //   //   .select('*')
-  //   //   .eq('id', id)
-  //   //   .single();
-  //   //   if (error) {
-  //   //       console.error("Error fetching member:", error);
-  //   //   } else {
-  //   //       setPost(data);
-  //   //   }
-  // };
-
-  const fetchComments = async (id) => {
-    const { data, error } = await supabase
-      .from('comments')
-      .select('*')
-      .eq('post_id', id)
-      if (error) {
-          console.error("Error fetching member:", error);
-      } else {
-          setComments(data);
-      }
-  };
-
-
   // When page initially loads, get all posts
   useEffect(() => {
       // READ all post from table
@@ -146,21 +98,6 @@ const App = () => {
     }
     // fetchPosts();
   }
-
-    // Called when like button for a comment is clicked
-    const updateCommentLikeCount = async (itemID, oldLikeCount) => {
-        {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
-        const newLikeCount = oldLikeCount + 1;
-        const { error } = await supabase
-            .from('comments')
-            .update({ like_count: newLikeCount })
-            .eq('id', itemID);
-
-        if (error) {
-            console.error("Error updating comment like count:", error.message);
-        }
-        // fetchComments();
-    }
 
   const updatePost = async (id, updatedData) => {
     const { data, error } = await supabase
@@ -223,7 +160,7 @@ const App = () => {
     },
     {
       path:"/view/:id",
-      element: <DetailedView updateLikeCount={updateLikeCount} updateCommentLikeCount={updateCommentLikeCount} user={user} posts={searchedPosts} deletePost={deletePost} />
+      element: <DetailedView updateLikeCount={updateLikeCount} user={user} posts={searchedPosts} deletePost={deletePost} />
     },
     {
       path:"/signup",

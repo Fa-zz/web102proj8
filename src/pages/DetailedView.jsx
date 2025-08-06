@@ -4,14 +4,26 @@ import { supabase } from '../client'
 import { Link } from 'react-router-dom'
 import './DetailedView.css'
 
-const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, deletePost}) => {
+const DetailedView = ({updateLikeCount, user, posts, deletePost}) => {
     const {id} = useParams() // This is the ID of the post
     const navigate = useNavigate();
     const [liked, setLiked] = useState(false);
     // const [post, setPost] = useState([])
-    // const [comments, setComments] = useState([])
+    const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState({ author: "", body: "" });
     const [post, setPost] = useState(null);
+
+    const fetchComments = async () => {
+        const { data, error } = await supabase
+            .from('comments')
+            .select('*')
+            .eq('post_id', id)
+            if (error) {
+                console.error("Error fetching member:", error);
+            } else {
+                setComments(data);
+            }
+    };
 
     useEffect(() => {
         const fetchPostById = async () => {
@@ -32,36 +44,42 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, del
         };
 
         fetchPostById();
+        fetchComments();
     }, [posts, id, liked]);
 
     if (!post) return <div>Serving up your post...</div>;
 
-    // // Get the post and comments
-    // useEffect(() => {
-    //     fetchPost(id);
-    //     fetchComments(id);
-    // }, [id]);
 
+    const createComment = async (event) => {
+        event.preventDefault();
+        const { data, error } = await supabase
+            .from('comments')
+            .insert({ author: newComment.author, body: newComment.body, post_id: id })
+            .select();
 
-    // const createComment = async (event) => {
-    //     event.preventDefault();
-    //     const { data, error } = await supabase
-    //         .from('comments')
-    //         .insert({ author: newComment.author, body: newComment.body, post_id: id })
-    //         .select();
+        if (error) {
+            console.error("Error creating comment:", error);
+        } else {
+            console.log("Successfully created:", data);
+        }
+        fetchComments();
+    }
 
-    //     if (error) {
-    //         console.error("Error creating comment:", error);
-    //     } else {
-    //         console.log("Successfully created:", data);
-    //     }
-    //     fetchComments();
-    // }
+    // Called when like button for a comment is clicked
+    const updateCommentLikeCount = async (itemID, oldLikeCount) => {
+        {if (user === "") {alert("Hey you're gonna need to log in before you can do that"); return;}}
+        const newLikeCount = oldLikeCount + 1;
 
-    // const handlePostLikeClick = (id, likeCount) => {
-    //     updateLikeCount(id, likeCount);
-    //     fetchPost();
-    // };
+        const { error } = await supabase
+            .from('comments')
+            .update({ like_count: newLikeCount })
+            .eq('id', itemID);
+
+        if (error) {
+            console.error("Error updating comment like count:", error.message);
+        }
+        fetchComments();
+    }
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -134,12 +152,12 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, del
                     onChange={handleChange}
                 />
 
-                {/* <input type="submit" value="Submit" onClick={createComment} /> */}
+                <input type="submit" value="Submit" onClick={createComment} />
             </form>
 
             <br /><br /><br />
             <h3>Comments</h3>
-            {/* <ul>
+            <ul>
             {
             comments.length === 0 ? (
                 <p>You're the first one here :)</p>
@@ -158,7 +176,7 @@ const DetailedView = ({updateLikeCount, updateCommentLikeCount, user, posts, del
                 ))
             )
             }
-            </ul> */}
+            </ul>
         </div>
     )
 }
