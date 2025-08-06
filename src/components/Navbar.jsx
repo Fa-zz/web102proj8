@@ -50,7 +50,7 @@ const Navbar = ( {setSearchTerm, user, setUser}) => {
                         Log in
                         </Link>
                     ) : (
-                        <Link onClick={() => setUser("")} className="headerBtn">
+                        <Link onClick={() => {alert("You've logged off. See you later!"); setUser("");}} className="headerBtn">
                         Log off
                         </Link>
                     )}

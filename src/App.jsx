@@ -78,7 +78,7 @@ const App = () => {
   const createPost = async (newPost) => {
     const { data, error } = await supabase
       .from('posts')
-      .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 10 })
+      .insert({ author: newPost.author, body: newPost.body, img_url: newPost.img_url, title: newPost.title, like_count: 1 })
       .select();              // Fetch the inserted row(s)
 
     if (!error && data && data.length > 0) {
