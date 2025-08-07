@@ -73,11 +73,11 @@ The following **additional** features are implemented:
 Note for grader: Please click on the thumbnail or the hyperlink Twitter - 6 August 2025 - Watch Video To see the full .gif.
 
 <div>
-    <a href="https://www.loom.com/share/9ffcd48d20684a7c879f0d46a8b31721">
+    <a href="https://www.loom.com/share/147f36cf25d043558b2a9f538c62f9f6">
       <p>Twitter - 6 August 2025 - Watch Video</p>
     </a>
-    <a href="https://www.loom.com/share/9ffcd48d20684a7c879f0d46a8b31721">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/9ffcd48d20684a7c879f0d46a8b31721-b852074ac0bf1d70-full-play.gif">
+    <a href="https://www.loom.com/share/147f36cf25d043558b2a9f538c62f9f6">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/147f36cf25d043558b2a9f538c62f9f6-5c10ae8857472525-full-play.gif">
     </a>
   </div>
 
